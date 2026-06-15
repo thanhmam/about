@@ -31,6 +31,9 @@
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
 
+    <!-- Background cho hiệu ứng Ripple -->
+    <div id="ripple-bg" class="fixed inset-0 -z-10 opacity-40 dark:opacity-20" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop'); background-size: cover; background-position: center;"></div>
+
     <div class="container mx-auto min-h-screen flex items-center justify-center p-4">
         
         <div class="w-full max-w-md">
@@ -145,6 +148,33 @@
 
     </div>
 
+    <!-- Thêm hiệu ứng Water Ripple -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            try {
+                // Áp dụng hiệu ứng ripple lên lớp nền
+                $('#ripple-bg').ripples({
+                    resolution: 512,
+                    dropRadius: 20, // Kích thước vòng tròn khi chạm
+                    perturbance: 0.04, // Độ nhiễu/gợn sóng
+                });
+                
+                // Tùy chọn: Tự động tạo hiệu ứng ngẫu nhiên (nếu muốn)
+                // setInterval(function() {
+                //    var $el = $('#ripple-bg');
+                //    var x = Math.random() * $el.outerWidth();
+                //    var y = Math.random() * $el.outerHeight();
+                //    var dropRadius = 20;
+                //    var strength = 0.04 + Math.random() * 0.04;
+                //    $el.ripples('drop', x, y, dropRadius, strength);
+                // }, 4000);
+            } catch (e) {
+                console.log("Ripples effect not supported or failed to load.", e);
+            }
+        });
+    </script>
 </body>
 </html>
 
