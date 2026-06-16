@@ -29,10 +29,10 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+<body class="text-gray-900 dark:text-white transition-colors duration-300">
 
     <!-- Background cho hiệu ứng Ripple -->
-    <div id="ripple-bg" class="fixed inset-0 -z-10 opacity-40 dark:opacity-20" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop'); background-size: cover; background-position: center;"></div>
+    <div id="ripple-bg" class="fixed inset-0 -z-10 bg-black"></div>
 
     <div class="container mx-auto min-h-screen flex items-center justify-center p-4">
         
@@ -154,6 +154,40 @@
     <script>
         $(document).ready(function() {
             try {
+                // Tạo background động bằng Canvas (nền đen + đốm mờ màu xanh)
+                const canvas = document.createElement('canvas');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const ctx = canvas.getContext('2d');
+
+                // Fill nền đen
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Hàm vẽ đốm mờ (blobs)
+                const createBlob = (x, y, r, color) => {
+                    const gradient = ctx.createRadialGradient(x, y, 0, x, y, r);
+                    gradient.addColorStop(0, color);
+                    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                };
+
+                // Vẽ 2 đốm sáng màu xanh mềm mại (góc trên trái và góc dưới phải)
+                const blobRadius = Math.max(canvas.width, canvas.height) * 0.4;
+                createBlob(canvas.width * 0.2, canvas.height * 0.2, blobRadius, 'rgba(100, 150, 255, 0.4)');
+                createBlob(canvas.width * 0.8, canvas.height * 0.8, blobRadius, 'rgba(100, 150, 255, 0.4)');
+
+                // Chuyển canvas thành URL ảnh và gán làm background cho #ripple-bg
+                const dataUrl = canvas.toDataURL();
+                $('#ripple-bg').css({
+                    'background-image': `url(${dataUrl})`,
+                    'background-size': 'cover',
+                    'background-position': 'center'
+                });
+
                 // Áp dụng hiệu ứng ripple lên lớp nền
                 $('#ripple-bg').ripples({
                     resolution: 512,
