@@ -29,10 +29,7 @@
         }
     </style>
 </head>
-<body class="text-gray-900 dark:text-white transition-colors duration-300">
-
-    <!-- Background cho hiệu ứng Ripple -->
-    <div id="ripple-bg" class="fixed inset-0 -z-10 bg-black"></div>
+<body class="bg-black text-gray-900 dark:text-white transition-colors duration-300">
 
     <div class="container mx-auto min-h-screen flex items-center justify-center p-4">
         
@@ -180,16 +177,17 @@
                 createBlob(canvas.width * 0.2, canvas.height * 0.2, blobRadius, 'rgba(100, 150, 255, 0.4)');
                 createBlob(canvas.width * 0.8, canvas.height * 0.8, blobRadius, 'rgba(100, 150, 255, 0.4)');
 
-                // Chuyển canvas thành URL ảnh và gán làm background cho #ripple-bg
+                // Chuyển canvas thành URL ảnh và gán làm background cho body
                 const dataUrl = canvas.toDataURL();
-                $('#ripple-bg').css({
+                $('body').css({
                     'background-image': `url(${dataUrl})`,
                     'background-size': 'cover',
-                    'background-position': 'center'
+                    'background-position': 'center',
+                    'background-attachment': 'fixed'
                 });
 
-                // Áp dụng hiệu ứng ripple lên lớp nền
-                $('#ripple-bg').ripples({
+                // Áp dụng hiệu ứng ripple lên body
+                $('body').ripples({
                     resolution: 512,
                     dropRadius: 20, // Kích thước vòng tròn khi chạm
                     perturbance: 0.04, // Độ nhiễu/gợn sóng
